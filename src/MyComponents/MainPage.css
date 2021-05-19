@@ -1,0 +1,43 @@
+.container
+{
+  margin-top: 190px;
+  background-color:darkseagreen;
+  height: 280px;
+  box-sizing: content-box;
+  box-decoration-break: slice;
+}
+.container h2
+{
+    font-weight: 700;
+    font-family: 'Times New Roman', Times, serif;
+    padding-top: -5px;
+    color: black;
+}
+.btn
+{
+    padding-top: 5px;
+    padding-left: 5px;
+    font-weight: 580;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl
+{
+    padding-top: 30px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 550;
+}
+.btn-primary {
+    color:black;
+    background-color:lightcoral;
+    border-color:black;
+}
+.form {
+    display: block;
+    margin-top: 500px;
+}
+.form-group {
+    margin-bottom: 75px;
+}
+.form-row {
+    margin-top: 50px;
+}
