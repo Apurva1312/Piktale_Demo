@@ -1,13 +1,11 @@
 import React from 'react'
 import { Carousel } from 'react-bootstrap';
 import './Header.css'
-import Navbar from  "./Navbar"
 
 
-export default function Header(props) {
+function Header() {
   return (
-    <div>
-    <Navbar />
+  <div className="header">
     <div ClassName="carousel-effect">
   <Carousel>
   <Carousel.Item>
@@ -35,6 +33,7 @@ export default function Header(props) {
   </Carousel.Item>
 </Carousel>
 </div>
-</div> 
-   )
+    </div>
+  )
 }
+export default Header
