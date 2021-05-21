@@ -4,7 +4,7 @@ import './Footer.css'
 export const Footer = () => {
     let footerStyle = {
         position: "absolute",
-        top:"92vh",
+        top:"170vh",
         width:"100%",
         background: "black",
     }
