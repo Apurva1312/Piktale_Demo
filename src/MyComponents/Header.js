@@ -38,31 +38,25 @@ import './MainPage.css'
        <h2>Check Vaccine Availability</h2>
       <Form>
       <Form.Row>
-      <Form.Group as={Col} controlId="formGridCity">
-      <Form.Label>City</Form.Label>
-      <Form.Control />
-      </Form.Group>
       <Form.Group as={Col} controlId="formGridState">
       <Form.Label>State</Form.Label>
-      <Form.Control as="select" defaultValue="Choose...">
-      <option>Choose...</option>
-      {
-          IndianStates.map(state=>{
-            return <Form.Control as="option" value={state}>{state}</Form.Control>
-        })
-    }
-    </Form.Control>
-    </Form.Group>
-    <Form.Group as={Col} controlId="formGridZip">
-    <Form.Label>Zip</Form.Label>
-    <Form.Control />
-    </Form.Group>
-    </Form.Row>
-    <Button variant="primary" type="submit">
-    Search
-    </Button>
-    </Form> 
-    </div>  
+      <input id="formGridState" className="form-control state" type="text" onChange={e => onChangeHandler(e.target.value)} value={text}/>
+      <div className="suggest">{text}</div>
+      </Form.Group>
+      <Form.Group as={Col} controlId="formGridCity">
+      <Form.Label>City</Form.Label>
+      <input id="formGridCity" className="form-control city" type="text"></input>
+      </Form.Group>
+      <Form.Group as={Col} controlId="formGridZip">
+      <Form.Label>Zip</Form.Label>
+      <input  type="text" id="formGridZip" className="form-control zip" name="zip" pattern="[0-9]+"></input>
+      </Form.Group>
+      </Form.Row>
+      <Button variant="primary" type="submit">
+        Search
+      </Button>
+      </Form> 
+</div>  
     
 
 </div>
