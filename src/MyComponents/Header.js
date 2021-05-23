@@ -1,13 +1,45 @@
-import React from 'react'
+
+import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-bootstrap';
 import './Header.css'
 import { Button , Col, Form } from 'react-bootstrap';
 import {IndianStates} from '../utils/dataHelpers';
 import './MainPage.css'
+import axios from 'axios';
  function Header() {
+  const[states,setStates] = useState([])
+  // const[users,setUsers]=useState([])
+  const[text,setText] = useState('')
+  //const[suggestions,setSuggestions] = useState([])
+  useEffect(() => {
+    const loadstates = async() =>{
+      const response = await axios.get('https://cdn-api.co-vin.in/api/v2/admin/location/states')
+      console.log(response.data)
+      setStates(response.data.states)
+      
+    }
+    loadstates();
+
+  },[])
+
+  const onChangeHandler = (text) => {
+    let matches = []
+    if(text.length > 0){
+      matches = states.filter(state =>{
+        const regex = new RegExp('${text}',"gi")
+        return state.state_name.match(regex)
+      })
+    }
+      console.log('matches',matches)
+      setSuggestions(matches)
+      setText(text)
+
+  }
+
+
   return (
-    <div ClassName="header">
-        <div ClassName="carousel-effect">
+    <div className="header">
+        <div className="carousel-effect">
   <Carousel>
   <Carousel.Item>
     <img
@@ -41,7 +73,9 @@ import './MainPage.css'
       <Form.Group as={Col} controlId="formGridState">
       <Form.Label>State</Form.Label>
       <input id="formGridState" className="form-control state" type="text" onChange={e => onChangeHandler(e.target.value)} value={text}/>
-      <div className="suggest">{text}</div>
+      //{suggestions && suggestions.map((suggestion,i)=>
+        //<div key={i}>{suggestion.state_name}</div>
+      //)}
       </Form.Group>
       <Form.Group as={Col} controlId="formGridCity">
       <Form.Label>City</Form.Label>
@@ -64,3 +98,4 @@ import './MainPage.css'
   )
 }
 export default Header 
+
