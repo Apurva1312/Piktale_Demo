@@ -1,19 +1,21 @@
-
 import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-bootstrap';
 import './Header.css'
 import { Button , Col, Form } from 'react-bootstrap';
 import {IndianStates} from '../utils/dataHelpers';
 import './MainPage.css'
-import axios from 'axios';
+import axios from 'axios'
+
  function Header() {
   const[states,setStates] = useState([])
   // const[users,setUsers]=useState([])
   const[text,setText] = useState('')
-  //const[suggestions,setSuggestions] = useState([])
+  // const[suggestions,setSuggestions] = useState([])
   useEffect(() => {
     const loadstates = async() =>{
-      const response = await axios.get('https://cdn-api.co-vin.in/api/v2/admin/location/states')
+      // https://reqres.in/api/users
+      // https://cdn-api.co-vin.in/api/v2/admin/location/states
+      const response = await axios.get('https://cdn-api.co-vin.in/api/v2/admin/location/state')
       console.log(response.data)
       setStates(response.data.states)
       
@@ -26,12 +28,12 @@ import axios from 'axios';
     let matches = []
     if(text.length > 0){
       matches = states.filter(state =>{
-        const regex = new RegExp('${text}',"gi")
+        const regex = new RegExp(`${text}`,"gi")
         return state.state_name.match(regex)
       })
     }
       console.log('matches',matches)
-      setSuggestions(matches)
+      // setSuggestions(matches)
       setText(text)
 
   }
@@ -73,9 +75,9 @@ import axios from 'axios';
       <Form.Group as={Col} controlId="formGridState">
       <Form.Label>State</Form.Label>
       <input id="formGridState" className="form-control state" type="text" onChange={e => onChangeHandler(e.target.value)} value={text}/>
-      //{suggestions && suggestions.map((suggestion,i)=>
+      {/* {suggestions && suggestions.map((suggestion,i)=>
         //<div key={i}>{suggestion.state_name}</div>
-      //)}
+      //)} */}
       </Form.Group>
       <Form.Group as={Col} controlId="formGridCity">
       <Form.Label>City</Form.Label>
