@@ -6,14 +6,17 @@ import { Button , Col, Form } from 'react-bootstrap';
 import './MainPage.css'
 import axios from 'axios';
  function Header() {
-  const[states,setStates] = useState([])
-  const[districts,setDistricts]=useState([])
-  const[text,setText] = useState('')
-  const[suggestions,setSuggestions] = useState([])
-  const[selectstate,setSelectstate] = useState()
-  const[x,setX]= useState('')
-  const[options,setOptions] = useState([])
+  const[states,setStates] = useState([])  // get states array of obj
+  const[districts,setDistricts]=useState([]) // get districts array of obj
+  const[text,setText] = useState({
+    state_id: '',
+    state_name:''
+  }) // state's text in input field
+  const[suggestions,setSuggestions] = useState([]) // state's suggestions
+  const[x,setX]= useState('') // disrict's text in input field
+  const[options,setOptions] = useState([]) // district's suggestions
   
+  // get states
   useEffect(() => {
     const loadstates = async() =>{
       const response = await axios.get('https://cdn-api.co-vin.in/api/v2/admin/location/states')
@@ -24,29 +27,33 @@ import axios from 'axios';
 
   },[])
 
-  const onSuggestHandler =(text)=>{
-    // response.data.states.filter(state=>state_name == text).map(state=>state_id)
-    setText(text)
+  const onSuggestHandler =(state)=>{
+    setText({
+      state_id:state.state_id,
+      state_name:state.state_name
+    })
     setSuggestions([])
-    // setSelectstate(res.filter(state=>state_name == text).map(state=>state_id))
   }
 
+  // get districts
   useEffect(() => {
     const loadcities = async() =>{
-      const response = await axios.get(`https://cdn-api.co-vin.in/api/v2/admin/location/districts/{selectstate}`)
+      console.log("State: ",text);
+      const response = await axios.get(`https://cdn-api.co-vin.in/api/v2/admin/location/districts/${text.state_id}`)
       console.log(response.data.districts)
       setDistricts(response.data.districts)
-      
     }
     loadcities();
 
-  },[])
+  },[text])
   
+  // suggestion for district
   const onOptionHandler =(x)=>{
     setX(x)
     setOptions([])
   }
   
+  // states change handle
   const onChangeHandler = (text) => {
     let matches = []
     if(text.length > 0){
@@ -58,9 +65,9 @@ import axios from 'axios';
       console.log('matches',matches)
       setSuggestions(matches)
       setText(text)
-      
   }
 
+  // districts change handle
   const onchangeHandler = (x) => {
     let matches = []
     if(x.length > 0){
@@ -112,7 +119,7 @@ import axios from 'axios';
       <Form.Group as={Col} controlId="formGridState">
       <Form.Label>State</Form.Label>
       <input id="formGridState" className="form-control state" type="text"
-       onChange={e => onChangeHandler(e.target.value)} value={text} 
+       onChange={e => onChangeHandler(e.target.value)} value={text.state_name} 
        onBlur ={()=>{
         setTimeout(()=>{
         setSuggestions([])
@@ -122,7 +129,7 @@ import axios from 'axios';
        />
       {suggestions && suggestions.map((suggestion,i)=>
         <div key={i} className="suggestion" onClick={() => 
-        onSuggestHandler(suggestion.state_name)} 
+        onSuggestHandler(suggestion)} 
         
         >{suggestion.state_name}</div>
       )}
@@ -130,7 +137,8 @@ import axios from 'axios';
       <Form.Group as={Col} controlId="formGridCity">
       <Form.Label>City</Form.Label>
       <input id="formGridCity" className="form-control city" type="text"
-       onChange={e => onchangeHandler(e.target.value)} value={x}
+        disabled={!text.state_name}
+        onChange={e => onchangeHandler(e.target.value)} value={x}
       />
       {options && options.map((option,i)=>
         <div key={i} className="options" onClick={() => onOptionHandler(option.district_name)}
